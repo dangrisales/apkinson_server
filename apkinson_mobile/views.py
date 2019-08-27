@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from datetime import datetime
+from django.conf import settings
 import base64
 import re
 import wave
@@ -20,9 +21,9 @@ def index(request):
 		        obj= Paciente.objects.get(id_name=request.POST['id_name'])
 			number_sessions_send=int(request.POST['number_session'])
 			number_session_recive=obj.session_count
-			principal_dir='media/'+obj.id_name+'/'
+			principal_dir=settings.MEDIA_ROOT+obj.id_name+'/'
 			for number_session in range(number_session_recive,number_session_recive+number_sessions_send):
-				os.mkdir('media/'+request.POST['id_name']+'/Session'+str(number_session+1))
+				os.mkdir(settings.MEDIA_ROOT+request.POST['id_name']+'/Session'+str(number_session+1))
 				obj.session_count=(obj.session_count+1)
 				obj.save()
 			for key in request.POST.keys():
@@ -60,7 +61,7 @@ def CreatePacient(request):
 	   birthday=datetime.strptime(request.POST['birthday'][4:10]+' '+request.POST['birthday'][-4:], '%b %d %Y')
            db_register= Paciente(name=request.POST['name_pacient'],id_name=request.POST['id_name'],gender=request.POST['gender'],birthday=birthday,smoker=bool(request.POST['smoker']),year_diag=int(request.POST['year_diag']),other_disorder=request.POST['other_disorder'],educational_level=int(request.POST['educational_level']),weight=request.POST['weight'],height=int(request.POST['height']),session_count=0)
 	   db_register.save()
-           os.mkdir('media/'+request.POST['id_name'])
+           os.mkdir(settings.MEDIA_ROOT+request.POST['id_name'])
      	   return HttpResponse('El paciente ha sido creado')
     return HttpResponse('')
 

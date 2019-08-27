@@ -79,8 +79,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'apkinson_server_db',
-        'USER': 'daniel',
-        'PASSWORD': 'Danielgita1234.',
+        'USER': 'apkinson_user',
+        'PASSWORD': 'DanielgitaApkinson2019',
         'HOST': 'localhost',
         'PORT': '3306',
     }
@@ -122,7 +122,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
