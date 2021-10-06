@@ -12,10 +12,6 @@ from django.conf import settings
 import subprocess
 import threading
 import shutil
-import sys 
-reload(sys) 
-sys.setdefaultencoding('utf8')
-
 
 @csrf_exempt
 def index(request):
@@ -35,10 +31,8 @@ def index(request):
 			for key in request.POST.keys():
 				if key != 'id_name' and key != 'number_session':
 					audio64=request.POST[key].decode('base64')
-					
 					if not 'Frase' in key:
-						key=key.encode('ascii','ignore').decode('utf-8')
-						f=open(settings.MEDIA_ROOT+obj.id_name+'/AUDIOS/'+key,"wb")
+						f=open(settings.MEDIA_ROOT+obj.id_name+'/AUDIOS/'+key+".wav","wb")
 					else:
 						name=re.sub(r'.*(Frase \d{1,}).*',r'\1',key).replace(' ','_')
 						f=open(principal_dir+obj.id_name+'/'+date+'/'+name+".wav","wb")
@@ -61,7 +55,7 @@ def CreatePacient(request):
 	   birthday=datetime.strptime(request.POST['birthday'][4:10]+' '+request.POST['birthday'][-4:], '%b %d %Y')
            db_register= Paciente(name=request.POST['name_pacient'],id_name=request.POST['id_name'],gender=request.POST['gender'],birthday=birthday,smoker=bool(request.POST['smoker']),year_diag=int(request.POST['year_diag']),other_disorder=request.POST['other_disorder'],educational_level=int(request.POST['educational_level']),weight=request.POST['weight'],height=int(request.POST['height']),session_count=0)
 	   db_register.save()
-           os.mkdir(settings.MEDIA_ROOT+request.POST['id_name'])
+           os.mkdir('media/'+request.POST['id_name'])
      	   return HttpResponse('El paciente ha sido creado')
 
     return HttpResponse('')
@@ -107,7 +101,6 @@ def UploadMovement(request):
 			for key in request.POST.keys():
 						if key != 'id_name' and key != 'number_session':
 							Move64=request.POST[key].decode('base64')
-							key=key.encode('ascii','ignore').decode('utf-8')
 							f=open(principal_dir+'MOVEMENTS/'+key,"wb")
 
 							f.write(Move64)
